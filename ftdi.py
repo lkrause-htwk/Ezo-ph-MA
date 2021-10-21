@@ -6,6 +6,8 @@ from pylibftdi.driver import FtdiError
 from pylibftdi import Driver
 import os
 import time
+import datetime
+
 
 
 class AtlasDevice(Device):
@@ -141,10 +143,15 @@ if __name__ == '__main__':
 				while True:
 					dev.send_cmd("R")
 					lines = dev.read_lines()
+					now = datetime.datetime.now()
 					for i in range(len(lines)):
 						# print lines[i]
 						if lines[i][0] != '*':
 							print("Response: " , lines[i])
+							print ("Current date and time : ")
+							print (now.strftime("%Y-%m-%d %H:%M:%S"))
+						Formatieren kann man die Ausgabe über die letzte Zeile.
+
 					time.sleep(delaytime)
 	
 			except KeyboardInterrupt: 		# catches the ctrl-c command, which breaks the loop above

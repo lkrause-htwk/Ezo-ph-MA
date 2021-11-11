@@ -147,8 +147,7 @@ if __name__ == '__main__':
 					for i in range(len(lines)):
 						# print lines[i]
 						if lines[i][0] != '*':
-							print("Response: " , lines[i])
-							print ("Current date and time : ")
+							print(lines[i])
 							print (now.strftime("%Y-%m-%d %H:%M:%S"))
 						Formatieren kann man die Ausgabe über die letzte Zeile.
 

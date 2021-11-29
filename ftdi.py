@@ -145,11 +145,34 @@ if __name__ == '__main__':
 					lines = dev.read_lines()
 					now = datetime.datetime.now()
 					for i in range(len(lines)):
-						# print lines[i]
+						ph_value=lines[i]	#pH-Wert
 						if lines[i][0] != '*':
-							print(lines[i])
-							print (now.strftime("%Y-%m-%d %H:%M:%S"))
-						Formatieren kann man die Ausgabe über die letzte Zeile.
+							time_now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')	#Zeitstempel
+							insert_statement='INSERT INTO dbo.VBH (timestamp, measuredValue) VALUES (?,?)'
+							
+							dsn	 = 'sqlserverdatasource'
+							database = 'Messwerte_PBA' 
+							username = 'PBA_Write' 
+							password = 'testpyth' 
+
+							cnxn = pyodbc.connect('DSN=sqlserverdatasource;DATABASE='+database+';UID='+username+';PWD='+password')
+							cursor=cnxn.cursor()
+							print("Verbindung gelungen")
+									   
+							try:
+								cursor.execute(insert_statement, time_now, ph_value)
+								cnxn.commit()
+								print(cursor)
+							
+							except Exception as e:
+								print(e)
+								cursor.rollback()
+								print("Transaktion abgebrochen")
+							finally:
+								cnxn.close
+								print("Fertig")
+							
+						
 
 					time.sleep(delaytime)
 	
